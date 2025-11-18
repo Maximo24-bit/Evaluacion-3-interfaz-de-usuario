@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        
+        :root {
+            --primary: #0F22FA;
+            --primary-dark: #5EDBFF;
+            --secondary: #A3ECFF;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        
+        .form-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.7;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #10b981, #06b6d4);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .shape-4 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            top: 30%;
+            right: 20%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-30px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(20px) rotate(240deg);
+            }
+        }
+
+        
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 520px;
+            position: relative;
+            transition: var(--transition-slow);
+        }
+
+        [data-theme="dark"] .form-card {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* ===== FORMULARIO ===== */
+        .data-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .form-label i {
+            color: var(--primary);
+            width: 16px;
+        }
+
+        .form-input {
+            padding: 16px 20px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .radio-option:hover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom {
+            border-color: var(--primary);
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + .checkbox-custom {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + .checkbox-custom::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .checkbox-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .checkbox-text.important {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 18px 24px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-text {
+            transition: var(--transition);
+        }
+
+        .btn-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+      
+
+       
+
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-icon {
+            font-size: 1.2rem;
+        }
+
+        
+        .hidden {
+            display: none !important;
+        }
+
+        .input-feedback {
+            font-size: 0.8rem;
+            min-height: 16px;
+            color: var(--danger);
+            transition: var(--transition);
+        }
+
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 32px 24px;
+                margin: 20px;
+            }
+
+            .radio-group {
+                gap: 8px;
+            }
+
+            .radio-option {
+                padding: 10px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 24px 20px;
+            }
+
+            .logo {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+
+            .welcome-text {
+                font-size: 1.3rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="animated-background">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+
+        <div class="form-card">
+            <div class="form-header">
+                <div class="logo">
+                    <i class="fas fa-user-circle"></i> 
+                    <h1>Registro Seguro</h1>
+                </div>
+                <p class="welcome-text">Ingrese sus datos</p>
+                <p class="subtitle">Protección de datos garantizada</p>
+            </div>
+
+            <form class="data-form" id="dataForm">
+                <div class="form-group">
+                    <label for="nombre" class="form-label">
+                        <i class="fas fa-user"></i>
+                        Nombre
+                    </label>
+                    <input 
+                        type="text" 
+                        id="nombre" 
+                        class="form-input"
+                        placeholder="Ingrese su nombre"
+                        maxlength="40"
+                        required
+                    >
+                    <div class="input-feedback"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellido" class="form-label">
+                        <i class="fas fa-user"></i>
+                        Apellido
+                    </label>
+                    <input 
+                        type="text" 
+                        id="apellido" 
+                        class="form-input"
+                        placeholder="Ingrese su apellido"
+                        maxlength="40"
+                        required
+                    >
+                    <div class="input-feedback"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-venus-mars"></i>
+                        Género
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="sexo" value="F">
+                            <span class="radio-custom"></span>
+                            <span class="radio-label">Femenino</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="sexo" value="M">
+                            <span class="radio-custom"></span>
+                            <span class="radio-label">Masculino</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="sexo" value="NC">
+                            <span class="radio-custom"></span>
+                            <span class="radio-label">No Contesta</span>
+                        </label>
+                    </div>
+                    <div class="input-feedback"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="correo" class="form-label">
+                        <i class="fas fa-envelope"></i>
+                        Correo Electrónico
+                    </label>
+                    <input 
+                        type="email" 
+                        id="correo" 
+                        class="form-input"
+                        placeholder="tu@email.com"
+                        maxlength="40"
+                        required
+                    >
+                    <div class="input-feedback"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono" class="form-label">
+                        <i class="fas fa-phone"></i>
+                        Teléfono
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="telefono" 
+                        class="form-input"
+                        placeholder="123456789"
+                        maxlength="9"
+                        pattern="[0-9]{9}"
+                        required
+                    >
+                    <div class="input-feedback"></div>
+                </div>
+
+                
+                <div class="form-group"> 
+                    <label class="form-label">
+                        <i class="fas fa-tasks"></i>
+                        Preferencias y Términos
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="confirmacion" checked>
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Deseo recibir información sobre novedades y ofertas</span>
+                        </label>
+                        
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="condiciones" required>
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text important">Declaro haber leído y aceptar las condiciones generales del programa y la normativa sobre protección de datos</span>
+                        </label>
+                    </div>
+                    <div class="input-feedback"></div> 
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-text">Crear cuenta</span>
+                    <div class="btn-loader hidden">
+                        <div class="loader"></div>
+                    </div>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>Derechos reservados a IU 2025-11</p>
+            </div>
+        </div>
+
+        <div id="notification" class="notification hidden">
+            <div class="notification-content">
+                <i class="fas fa-check-circle notification-icon"></i>
+                <span id="notificationText"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        class FormManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+            }
+
+            bindEvents() {
+                
+                document.getElementById('dataForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleSubmit();
+                });
+
+                
+                
+                document.getElementById('nombre').addEventListener('blur', () => {
+                    this.validateRequiredField('nombre', 'El nombre es requerido');
+                });
+
+                document.getElementById('apellido').addEventListener('blur', () => {
+                    this.validateRequiredField('apellido', 'El apellido es requerido');
+                });
+
+                document.getElementById('correo').addEventListener('blur', () => {
+                    this.validateEmail();
+                });
+
+                document.getElementById('telefono').addEventListener('blur', () => {
+                    this.validatePhone();
+                });
+            }
+
+            async handleSubmit() {
+                if (!this.validateForm()) {
+                    this.showNotification('Por favor, corrige los errores en el formulario', 'error');
+                    return;
+                }
+
+                this.setLoading(true);
+
+                try {
+                    await this.simulateNetworkDelay();
+                    this.showNotification('¡Registro exitoso! Redirigiendo...', 'success');
+                    
+                    
+                    
+                    const nombre = document.getElementById('nombre').value;
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('userName', nombre);
+
+
+                    setTimeout(() => {
+                        window.location.href = 'evaluacion 3  interfaz de usuario.html';
+                    }, 2000); 
+
+                } catch (error) {
+                    this.showNotification('Error al enviar los datos. Inténtalo de nuevo.', 'error');
+                    this.shakeForm();
+                } finally {
+                    if (!document.getElementById('submitBtn').disabled) {
+                         this.setLoading(false);
+                    }
+                }
+            }
+
+            
+            validateForm() {
+                const validations = [
+                    this.validateRequiredField('nombre', 'El nombre es requerido'),
+                    this.validateRequiredField('apellido', 'El apellido es requerido'),
+                    this.validateEmail(),
+                    this.validatePhone(),
+                    this.validateRadioGroup('sexo', 'Por favor selecciona un género'),
+                    // ===== CAMBIO 2: Mensaje de error personalizado =====
+                    this.validateCheckbox('condiciones', 'acepte la condiciones o es obligatorio')
+                ];
+
+                return validations.every(validation => validation === true);
+            }
+
+            validateRequiredField(fieldId, message) {
+                const input = document.getElementById(fieldId);
+                const feedback = input.parentElement.querySelector('.input-feedback');
+                const value = input.value.trim();
+
+                if (!value) {
+                    this.setInputError(input, feedback, message);
+                    return false;
+                }
+
+                this.setInputSuccess(input, feedback);
+                return true;
+            }
+
+            
+            validateEmail() {
+                const emailInput = document.getElementById('correo');
+                const feedback = emailInput.parentElement.querySelector('.input-feedback');
+                const email = emailInput.value.trim();
+                
+                
+                const emailsValidos = [
+                    'williams.rios@virginiogomez.cl',   // Cuenta original
+                    'vicente.quezada1@virginiogomez.cl',             // Cuenta extra 1
+                    'maximo.ponce@virginiogomez.cl',             // Cuenta extra 2
+                    'manuel.tornel@virginiogomez.cl'         // Cuenta extra 3
+                ];
+
+                if (!email) {
+                    this.setInputError(emailInput, feedback, 'El email es requerido');
+                    return false;
+                }
+
+                a
+                if (emailsValidos.includes(email.toLowerCase())) {
+                    // Éxito
+                    emailInput.style.borderColor = 'var(--success)';
+                    feedback.textContent = '¡Correo correcto!';
+                    feedback.style.color = 'var(--success)';
+                    return true;
+                } else {
+                    
+                    this.setInputError(emailInput, feedback, 'el correo no es valido');
+                    return false;
+                }
+            }
+            validatePhone() {
+                const phoneInput = document.getElementById('telefono');
+                const feedback = phoneInput.parentElement.querySelector('.input-feedback');
+                const phone = phoneInput.value.trim();
+
+                if (!phone) {
+                    this.setInputError(phoneInput, feedback, 'El teléfono es requerido');
+                    return false;
+                }
+
+                if (!this.isValidPhone(phone)) {
+                    this.setInputError(phoneInput, feedback, 'El teléfono debe tener 9 dígitos');
+                    return false;
+                }
+
+                this.setInputSuccess(phoneInput, feedback);
+                return true;
+            }
+
+            validateRadioGroup(name, message) {
+                const radios = document.querySelectorAll(`input[name="${name}"]`);
+                const feedback = document.querySelector(`input[name="${name}"]`).closest('.form-group').querySelector('.input-feedback');
+                const isChecked = Array.from(radios).some(radio => radio.checked);
+
+                if (!isChecked) {
+                    feedback.textContent = message;
+                    feedback.style.color = 'var(--danger)';
+                    return false;
+                }
+
+                feedback.textContent = '';
+                return true;
+            }
+
+            
+            validateCheckbox(checkboxId, message) {
+                const checkbox = document.getElementById(checkboxId);
+                // Buscar el div de feedback dentro del .form-group padre
+                const feedbackDiv = checkbox.closest('.form-group').querySelector('.input-feedback');
+
+                if (!checkbox.checked) {
+                    // Mostrar el mensaje de error en el div de feedback
+                    feedbackDiv.textContent = message;
+                    feedbackDiv.style.color = 'var(--danger)';
+                    return false;
+                }
+
+                
+                feedbackDiv.textContent = '';
+                return true;
+            }
+            // ==============================================================
+
+
+            isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            isValidPhone(phone) {
+                const phoneRegex = /^[0-9]{9}$/;
+                return phoneRegex.test(phone);
+            }
+
+            setInputError(input, feedback, message) {
+                input.style.borderColor = 'var(--danger)';
+                feedback.textContent = message;
+                feedback.style.color = 'var(--danger)';
+            }
+
+            setInputSuccess(input, feedback) {
+                input.style.borderColor = 'var(--success)';
+                feedback.textContent = '';
+            }
+
+            setLoading(loading) {
+                const submitBtn = document.getElementById('submitBtn');
+                const btnText = submitBtn.querySelector('.btn-text');
+                const btnLoader = submitBtn.querySelector('.btn-loader');
+
+                submitBtn.disabled = loading;
+                
+                if (loading) {
+                    btnText.classList.add('hidden');
+                    btnLoader.classList.remove('hidden');
+                } else {
+                    btnText.classList.remove('hidden');
+                    btnLoader.classList.add('hidden');
+                }
+            }
+
+           
+
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                const notificationText = document.getElementById('notificationText');
+                
+                notificationText.textContent = message;
+                notification.className = `notification ${type} show`;
+                
+                const icon = notification.querySelector('.notification-icon');
+                icon.className = type === 'success' 
+                    ? 'fas fa-check-circle notification-icon'
+                    : 'fas fa-exclamation-circle notification-icon';
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 4000);
+            }
+
+            shakeForm() {
+                const form = document.getElementById('dataForm');
+                form.classList.add('shake');
+                setTimeout(() => {
+                    form.classList.remove('shake');
+                }, 500);
+            }
+
+            simulateNetworkDelay() {
+                return new Promise(resolve => {
+                    setTimeout(resolve, 1500 + Math.random() * 1000);
+                });
+            }
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            window.formManager = new FormManager();
+        });
+    </script>
+</body>
+</html>

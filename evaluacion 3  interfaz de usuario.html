@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda Deportiva ProSport</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+   body {
+      background: #f5f5ff;
+      color: #222;
+    }
+
+    header {
+      background: #0d6efd;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      background: #084298;
+      padding: 10px 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      transition: 0.3s;
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    nav a.active {
+      color: #ffc107;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    
+    nav a i {
+        margin-right: 6px;
+        width: 1.2em; 
+        text-align: center;
+    }
+    
+    
+    /* ESTILOS CARRITO */
+    #nav-cart {
+        position: relative;
+        padding-right: 15px; 
+        font-size: 1.2em; 
+    }
+    #nav-cart i {
+        margin-right: 0;
+    }
+    
+    .cart-badge {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background-color: #ef4444; 
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.7em;
+        font-weight: bold;
+        display: none; 
+    }
+    .cart-badge.show {
+        display: block; 
+    }
+
+
+    
+    #inicio-section {
+        height: 450px;
+        position: relative;
+        overflow: hidden;
+        background: #333;
+    }
+    .slider-container {
+        height: 100%;
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+    }
+    .slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .slide-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        z-index: 2;
+    }
+    .slide-content h2 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+    .slide-content p {
+        font-size: 1.2em;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    }
+    .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 1.5em;
+        cursor: pointer;
+        z-index: 5;
+        transition: background 0.3s;
+    }
+    .slider-btn:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
+    #prevBtn {
+        left: 10px;
+    }
+    #nextBtn {
+        right: 10px;
+    }
+
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 2.5em;
+        color: #0d6efd;
+    }
+
+
+    
+    .filter-container {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .filter-btn {
+      background: white;
+      border: 2px solid #0d6efd;
+      color: #0d6efd;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .filter-btn:hover {
+      background: #0d6efd;
+      color: white;
+    }
+    .filter-btn.active {
+      background: #0d6efd;
+      color: white;
+    }
+    
+    /* BARRA DE BÚSQUEDA */
+    .search-container {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    #product-search {
+        width: 100%;
+        max-width: 600px;
+        padding: 12px 20px;
+        border: 2px solid #ddd;
+        border-radius: 25px;
+        font-size: 1em;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    #product-search:focus {
+        border-color: #0d6efd;
+    }
+
+
+    
+    #productos-section .productos {
+      display: flex;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      gap: 20px;
+      padding-bottom: 20px;
+    }
+    #productos-section .productos::-webkit-scrollbar {
+        height: 12px;
+    }
+    #productos-section .productos::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    #productos-section .productos::-webkit-scrollbar-thumb {
+        background: #0d6efd;
+        border-radius: 10px;
+    }
+    #productos-section .productos::-webkit-scrollbar-thumb:hover {
+        background: #0a58ca;
+    }
+
+
+    .producto {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    #productos-section .producto {
+      flex: 0 0 280px; 
+    }
+    
+    
+    #ofertas-section .productos {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    #ofertas-section .producto {
+        flex: 1 1 280px;
+    }
+    
+    .producto.hide {
+      display: none;
+    }
+
+    .producto:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* ARREGLO IMAGEN ESTIRADA */
+    .producto img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover; 
+    }
+
+    .producto .jpg, .producto .info {
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .producto-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 250px;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafafa;
+    }
+    .placeholder-text {
+      color: #aaa;
+      font-style: italic;
+    }
+
+    .producto h3 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #0d6efd;
+      min-height: 43px; 
+    }
+
+    .producto .precio {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+    /* ESTILOS PARA OFERTAS */
+    .precio-container {
+        margin-bottom: 15px;
+        min-height: 40px; 
+    }
+    .precio-original {
+        color: #888;
+        text-decoration: line-through;
+        margin-right: 10px;
+        font-size: 0.9em;
+        display: block; 
+    }
+    .precio-oferta {
+        color: #ef4444; 
+        font-weight: bold;
+        font-size: 1.2em;
+        display: block; 
+    }
+
+
+    .btn-comprar {
+      background: #0d6efd;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-comprar:hover {
+      background: #0a58ca;
+    }
+
+    
+    #contacto-section {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        min-height: 300px;
+    }
+    #contacto-section p {
+        font-size: 1.2em;
+        color: #666;
+        margin-top: 20px;
+    }
+    
+    
+    
+    #cart-modal {
+        display: none; 
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6);
+        animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .cart-modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 10px;
+        position: relative;
+    }
+    .cart-close-btn {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .cart-close-btn:hover {
+        color: #000;
+    }
+    
+    
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .cart-item-info {
+        flex-grow: 1;
+    }
+    .cart-item-name {
+        font-weight: bold;
+        color: #333;
+        display: block; 
+    }
+    .cart-item-price {
+        color: #0d6efd;
+        font-size: 0.9em;
+    }
+    .cart-item-controls {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+    .quantity-btn {
+        background: #ddd;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 1em;
+        border-radius: 5px;
+    }
+    .quantity-input {
+        width: 40px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 0 5px;
+        padding: 4px;
+    }
+    
+    .quantity-input::-webkit-outer-spin-button,
+    .quantity-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .cart-delete-btn {
+        background: none;
+        border: none;
+        color: #ef4444;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .cart-delete-btn:hover {
+        color: #c82333;
+    }
+    
+
+    #cart-summary {
+        margin-top: 20px;
+        text-align: right;
+    }
+    #cart-summary p {
+        margin: 5px 0;
+        font-size: 1.1em;
+    }
+    #cart-summary h3 {
+        color: #0d6efd;
+        font-size: 1.4em;
+        margin-top: 10px;
+    }
+    #cart-buy-btn {
+        background: #198754;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 20px;
+        width: 100%;
+    }
+    #cart-buy-btn:hover {
+        background: #157347;
+    }
+    #cart-feedback {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 1.1em;
+        font-weight: bold;
+        min-height: 1.5em; 
+    }
+    
+
+
+    
+
+
+    
+    html {
+        height: 100%;
+    }
+    body {
+      background: #f5f5ff;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+   
+
+
+    header {
+      background: #0d6efd;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      background: #084298;
+      padding: 10px 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      transition: 0.3s;
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    nav a.active {
+      color: #ffc107;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    
+    nav a i {
+        margin-right: 6px;
+        width: 1.2em; 
+        text-align: center;
+    }
+    
+    
+    
+    #nav-cart {
+        position: relative;
+        padding-right: 15px; 
+        font-size: 1.2em; 
+    }
+    #nav-cart i {
+        margin-right: 0;
+    }
+    
+    .cart-badge {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background-color: #ef4444; 
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.7em;
+        font-weight: bold;
+        display: none; 
+    }
+    .cart-badge.show {
+        display: block; 
+    }
+
+    
+    .page-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    
+    #inicio-section {
+        flex-grow: 1; 
+        position: relative;
+        overflow: hidden;
+        background: #333;
+        display: flex; 
+    }
+    .slider-container {
+        height: 100%;
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%;
+    }
+    
+    
+    .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .slide-content {
+       
+        
+        color: white;
+        text-align: center;
+        z-index: 2;
+        padding: 20px; 
+    }
+    /* =================================================== */
+
+    .slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .slide-content h2 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+    .slide-content p {
+        font-size: 1.2em;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    }
+    .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 1.5em;
+        cursor: pointer;
+        z-index: 5;
+        transition: background 0.3s;
+    }
+    .slider-btn:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
+    #prevBtn {
+        left: 10px;
+    }
+    #nextBtn {
+        right: 10px;
+    }
+
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 2.5em;
+        color: #0d6efd;
+    }
+
+
+    
+    .filter-container {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .filter-btn {
+      background: white;
+      border: 2px solid #0d6efd;
+      color: #0d6efd;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .filter-btn:hover {
+      background: #0d6efd;
+      color: white;
+    }
+    .filter-btn.active {
+      background: #0d6efd;
+      color: white;
+    }
+    
+    
+    .search-container {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    #product-search {
+        width: 100%;
+        max-width: 600px;
+        padding: 12px 20px;
+        border: 2px solid #ddd;
+        border-radius: 25px;
+        font-size: 1em;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    #product-search:focus {
+        border-color: #0d6efd;
+    }
+
+
+    
+    #productos-section .productos {
+      display: flex;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      gap: 20px;
+      padding-bottom: 20px;
+    }
+    #productos-section .productos::-webkit-scrollbar {
+        height: 12px;
+    }
+    #productos-section .productos::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    #productos-section .productos::-webkit-scrollbar-thumb {
+        background: #0d6efd;
+        border-radius: 10px;
+    }
+    #productos-section .productos::-webkit-scrollbar-thumb:hover {
+        background: #0a58ca;
+    }
+
+
+    .producto {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    #productos-section .producto {
+      flex: 0 0 280px; 
+    }
+    
+    
+    #ofertas-section .productos {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    #ofertas-section .producto {
+        flex: 1 1 280px;
+    }
+    
+    .producto.hide {
+      display: none;
+    }
+
+    .producto:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    
+    .producto img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover; 
+    }
+
+    .producto .jpg, .producto .info {
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .producto-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 250px;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafafa;
+    }
+    .placeholder-text {
+      color: #aaa;
+      font-style: italic;
+    }
+
+    .producto h3 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #0d6efd;
+      min-height: 43px; 
+    }
+
+    .producto .precio {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+   
+    .precio-container {
+        margin-bottom: 15px;
+        min-height: 40px; 
+    }
+    .precio-original {
+        color: #888;
+        text-decoration: line-through;
+        margin-right: 10px;
+        font-size: 0.9em;
+        display: block; 
+    }
+    .precio-oferta {
+        color: #ef4444; 
+        font-weight: bold;
+        font-size: 1.2em;
+        display: block; 
+    }
+
+
+    .btn-comprar {
+      background: #0d6efd;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-comprar:hover {
+      background: #0a58ca;
+    }
+
+    
+    #contacto-section {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        min-height: 300px;
+    }
+    #contacto-section p {
+        font-size: 1.2em;
+        color: #666;
+        margin-top: 20px;
+    }
+    
+    
+    
+    #cart-modal {
+        display: none; 
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6);
+        animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .cart-modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 10px;
+        position: relative;
+    }
+    .cart-close-btn {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .cart-close-btn:hover {
+        color: #000;
+    }
+    
+   
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .cart-item-info {
+        flex-grow: 1;
+    }
+    .cart-item-name {
+        font-weight: bold;
+        color: #333;
+        display: block; 
+    }
+    .cart-item-price {
+        color: #0d6efd;
+        font-size: 0.9em;
+    }
+    .cart-item-controls {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+    .quantity-btn {
+        background: #ddd;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 1em;
+        border-radius: 5px;
+    }
+    .quantity-input {
+        width: 40px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 0 5px;
+        padding: 4px;
+    }
+    .quantity-input::-webkit-outer-spin-button,
+    .quantity-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .cart-delete-btn {
+        background: none;
+        border: none;
+        color: #ef4444;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .cart-delete-btn:hover {
+        color: #c82333;
+    }
+
+    #cart-summary {
+        margin-top: 20px;
+        text-align: right;
+    }
+    #cart-summary p {
+        margin: 5px 0;
+        font-size: 1.1em;
+    }
+    #cart-summary h3 {
+        color: #0d6efd;
+        font-size: 1.4em;
+        margin-top: 10px;
+    }
+    #cart-buy-btn {
+        background: #198754;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 20px;
+        width: 100%;
+    }
+    #cart-buy-btn:hover {
+        background: #157347;
+    }
+    #cart-feedback {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 1.1em;
+        font-weight: bold;
+        min-height: 1.5em; 
+    }
+
+    
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      flex-shrink: 0;
+    }
+    /* =========================================== */
+  </style>
+</head>
+<body>
+  
+  <header>
+    <h1>ProSport</h1>
+  </header>
+
+  <nav>
+    <a href="#" id="nav-inicio" class="active"><i class="fas fa-home"></i> Inicio</a>
+    <a href="#" id="nav-productos"><i class="fas fa-shopping-bag"></i> Productos</a>
+    <a href="#" id="nav-ofertas"><i class="fas fa-tag"></i> Ofertas</a>
+    <a href="#" id="nav-contacto"><i class="fas fa-phone"></i> Contacto</a>
+    <a href="#" id="nav-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="cart-count">0</span>
+    </a>
+    <a href="login.html" id="nav-login" style="display: inline-flex;">
+        <i class="fas fa-sign-in-alt"></i> Login
+    </a>
+    <a href="#" id="nav-logout" style="display: none;">
+        </a>
+  </nav>
+  
+  <main class="page-content">
+  
+    <div class="main-section" id="inicio-section">
+        <div class="slider-container">
+            <div class="slide" style="background-image: url('Menu 1.jpg');">
+                <div class="slide-content"> <h2>¿Buscas Algo? 👀 </h2> <p>¡ProSport Te Lo Brinda!</p> </div>
+            </div>
+            <div class="slide" style="background-image: url('Menu 2.jpeg');">
+                <div class="slide-content"> <h2>¡Calidad Garantizada!</h2> <p>Tenemos los mejores articulos deportivos de  calidad!</p> </div>
+            </div>
+            <div class="slide" style="background-image: url('Menu 3.jpg');">
+                <div class="slide-content"> <h2>Consejos de natacion</h2> <p>Nuestros Lentes Acuaticos Te Dan La Proteccion Que Necesitas.</p> </div>
+                
+            </div>
+            <div class="slide" style="background-image: url('Menu 4.jpg'); background-color: #555;">
+                <div class="slide-content"> <h2></h2>"Siempre parece imposible, hasta que se hace posible."<p></p>"La diferencia entre un jugador y una leyenda esta en el ultimo minuto de entrenamiento."</div>
+            </div>
+            <div class="slide" style="background-image: url('Fondo BOXEO.jpg'); background-color: #444;">
+                <div class="slide-content"> <h2></h2>Tips De Boxeo<p>Equípate con guantes es opcional para  proteger tus manos.</p></div>
+            </div>
+        </div>
+        <button class="slider-btn" id="prevBtn">&#10094;</button>
+        <button class="slider-btn" id="nextBtn">&#10095;</button>
+    </div>
+  
+  
+    <div class="container main-section" id="productos-section" style="display: none;">
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="Futbol">Fútbol</button>
+        <button class="filter-btn" data-filter="Atletismo">Atletismo</button>
+        <button class="filter-btn" data-filter="Boxeo">Boxeo</button>
+        <button class="filter-btn" data-filter="Natacion">Natación</button>
+      </div>
+      
+      <div class="search-container">
+          <input type="text" id="product-search" placeholder="Buscar producto por nombre...">
+      </div>
+  
+      <div class="productos">
+        <div class="producto" data-category="Natacion" data-id="gafas-natacion">
+          <img src="gafas.jpg">
+          <div class="jpg">
+            <h3>Gafas de natacion</h3>
+            <p class="precio">$12.990</p>
+            <button class="btn-comprar">Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="producto" data-category="Futbol" data-id="zapatillas-nike-air">
+          <img src="Zapatilla.jpg">
+          <div class="jpg">
+            <h3>Zapatillas Running Nike Air</h3>
+            <p class="precio">$30.000</p>
+            <button class="btn-comprar">Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="producto" data-category="Boxeo" data-id="guantes-everlast">
+          <img src="guantes.jpg">
+          <div class="jpg">
+            <h3>Guantes de Boxeo Everlast</h3>
+            <p class="precio">$44.150</p>
+            <button class="btn-comprar">Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="producto" data-category="Futbol" data-id="balon-adidas-uefa">
+          <img src="Pelota.jpg">
+          <div class="jpg">
+            <h3>Balón Marca Adidas </h3>
+            <p class="precio">$29.990</p>
+            <button class="btn-comprar">Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="producto" data-category="Atletismo" data-id="polera-dryfit-nike">
+          <img src="Polera deportiva.jpg" alt="Ropa deportiva">
+          <div class="info">
+            <h3>Polera DryFit Nike</h3>
+            <p class="precio">$19.500</p>
+            <button class="btn-comprar">Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="producto" data-category="Futbol" data-id="Guantes futbol">
+          <div class="img"> <span class=".jpg"> <img src="Guantes futbol.jpg"></span> </div>
+          
+          <div class="info"> <h3>Guantes De Futbol profesional</h3> <p class="precio">$16.000</p> <button class="btn-comprar">Añadir al carrito</button> </div>
+        </div>
+
+
+        <div class="producto" data-category="Futbol" data-id="Canilleras Deportivas">
+          <div class="img"> <span class="jpg"> <img src="Canillera.jpg "></span> </div>
+
+          <div class="info"> <h3>Canilleras</h3> <p class="precio">$10.000</p> <button class="btn-comprar">Añadir al carrito</button> </div>
+        </div>
+
+        <div class="producto" data-category="Atletismo" data-id="Botella Hidratante">
+          <div class="img"> <span class="jpg"> <img src="Botella.jpg"></span> </div>
+
+          <div class="info"> <h3>Botella Hidratante</h3> <p class="precio">$7.600</p> <button class="btn-comprar">Añadir al carrito</button> </div>
+        </div>
+        <div class="producto" data-category="Natacion" data-id="Gorro de natacion">
+          <div class="img"> <span class="jpg"> <img src="Gorro natacion.jpg"></span> </div>
+          <div class="info"> <h3>Gorro de natacion</h3> <p class="precio">$22.990</p> <button class="btn-comprar">Añadir al carrito</button> </div>
+        </div>
+        <div class="producto" data-category="Boxeo" data-id="Protector de boxeo">
+          <div class="img"> <span class="png"> <img src="Cabeza protectora.png"></span> 
+          </div>
+
+          <div class="info"> <h3>Protector de Boxeo</h3> <p class="precio">$49.990</p> <button class="btn-comprar">Añadir al carrito</button> </div>
+        </div>
+    </div>
+</div>
+  
+
+    <div class="container main-section" id="ofertas-section" style="display: none;">
+      <h2 class="section-title">🔥 Ofertas Imperdibles</h2>
+      <div class="productos"> 
+          <div class="producto" data-category="oferta" data-id="polera-dryfit-nike"> 
+              <img src="Polera deportiva.jpg" alt="Ropa deportiva">
+              <div class="info">
+                <h3>Polera DryFit Nike</h3>
+                <div class="precio-container">
+                    <span class="precio-original">$19.990</span>
+                    <span class="precio-oferta">$17.990 (10% OFF)</span>
+                </div>
+                <button class="btn-comprar">Añadir al carrito</button>
+              </div>
+          </div>
+          <div class="producto" data-category="oferta" data-id="Protector de dientes">
+              <div class="Protector de dientes"> <img src="Protector de dientes.jpg"></span> </div>
+              <div class="info">
+                <h3>Protector de dientes</h3>
+                <div class="precio-container"> <span class="precio-original">$5.000</span> <span class="precio-oferta">$4.500 (10% OFF)</span> </div>
+                <button class="btn-comprar">Añadir al carrito</button>
+              </div>
+          </div>
+          <div class="producto" data-category="oferta" data-id="Botella Hidratante">
+              <div class="Botella Hidratante"> <img src="Botella.jpg"></span> </div>
+              <div class="info">
+                <h3>Botella Hidratante</h3>
+                <div class="precio-container"> <span class="precio-original">$7.600</span> <span class="precio-oferta">$1.216 (16% OFF)</span> </div>
+                <button class="btn-comprar">Añadir al carrito</button>
+              </div>
+          </div>
+      </div>
+    </div>
+  
+  
+    <div class="container main-section" id="contacto-section" style="display: none;">
+      <h2 class="section-title">Contacto☎️</h2>
+      <p>Contactanos! para saber si Tiene Un Problema de servicio o tal!📱</p>
+      <p>Por ahora, puede contactar a uno de los integrantes como "williams.rios@virginiogomez.cl" <strong>prosport@tienda.cl</strong></p>
+    </div>
+
+  </main> 
+  <div id="cart-modal">
+      <div class="cart-modal-content">
+          <span class="cart-close-btn" id="cart-close-btn">&times;</span>
+          <h2>Tu Carrito</h2>
+          
+          <div id="cart-items-list">
+              </div>
+          
+          <div id="cart-summary">
+              <p>Subtotal: <span id="cart-subtotal">$0</span></p>
+              <p>IVA (19%): <span id="cart-iva">$0</span></p>
+              <h3>Total: <span id="cart-total">$0</span></h3>
+          </div>
+          
+          <button id="cart-buy-btn">Comprar</button>
+          <div id="cart-feedback"></div>
+      </div>
+  </div>
+
+
+  <footer>
+    <p>&copy; 2025 Chile ProSport. Todos los derechos reservados.</p>
+  </footer>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let cart = []; 
+        const cartBadge = document.getElementById('cart-count');
+        const allBuyButtons = document.querySelectorAll('.btn-comprar');
+        const cartModal = document.getElementById('cart-modal');
+        const cartCloseBtn = document.getElementById('cart-close-btn');
+        const navCartBtn = document.getElementById('nav-cart');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartSubtotalEl = document.getElementById('cart-subtotal');
+        const cartIvaEl = document.getElementById('cart-iva');
+        const cartTotalEl = document.getElementById('cart-total');
+        const cartBuyBtn = document.getElementById('cart-buy-btn');
+        const cartFeedback = document.getElementById('cart-feedback');
+        
+        function loadCart() {
+            const savedCart = sessionStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+            updateCartCounter();
+        }
+        
+        function saveCart() {
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function updateCartCounter() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); 
+            cartBadge.textContent = totalItems;
+            if (totalItems > 0) {
+                cartBadge.classList.add('show');
+            } else {
+                cartBadge.classList.remove('show');
+            }
+        }
+
+        function cleanPrice(priceString) {
+            return Number(priceString.replace(/\$|\./g, '').split('(')[0].trim());
+        }
+        
+        function formatCurrency(number) {
+            return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(number);
+        }
+
+        allBuyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const productCard = button.closest('.producto');
+                const productId = productCard.dataset.id;
+                
+                if (!productId || productId.includes('placeholder')) {
+                    alert("Este producto de ejemplo no se puede añadir.");
+                    return;
+                }
+                
+                const productName = productCard.querySelector('h3').textContent;
+                
+                let priceEl = productCard.querySelector('.precio-oferta');
+                if (!priceEl) {
+                    priceEl = productCard.querySelector('.precio');
+                }
+                const productPrice = cleanPrice(priceEl.textContent);
+
+                const existingItem = cart.find(item => item.id === productId);
+
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
+                }
+                
+                saveCart();
+                updateCartCounter();
+                alert(`✅ ${productName} añadido al carrito.`);
+            });
+        });
+        
+        function updateCartSummary() {
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+            
+            const iva = subtotal * 0.19;
+            const total = subtotal + iva;
+            
+            cartSubtotalEl.textContent = formatCurrency(subtotal);
+            cartIvaEl.textContent = formatCurrency(iva);
+            cartTotalEl.textContent = formatCurrency(total);
+        }
+
+        function renderCart() {
+            cartItemsList.innerHTML = ''; 
+            
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<p>Tu carrito está vacío.</p>';
+            }
+
+            cart.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <div class="cart-item-info">
+                        <span class="cart-item-name">${item.name} (x${item.quantity})</span>
+                        <span class="cart-item-price">${formatCurrency(item.price * item.quantity)}</span>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" data-id="${item.id}" data-action="decrease">-</button>
+                        <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-id="${item.id}" readonly>
+                        <button class="quantity-btn" data-id="${item.id}" data-action="increase">+</button>
+                    </div>
+                    <button class="cart-delete-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+                `;
+                cartItemsList.appendChild(itemEl);
+            });
+            
+            updateCartSummary(); 
+            cartFeedback.innerHTML = ''; 
+            addCartEventListeners();
+        }
+        
+        function addCartEventListeners() {
+            cartItemsList.querySelectorAll('.quantity-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.currentTarget.dataset.id;
+                    const action = e.currentTarget.dataset.action;
+                    const item = cart.find(i => i.id === id);
+                    if (!item) return;
+
+                    if (action === 'increase') {
+                        item.quantity++;
+                    } else if (action === 'decrease') {
+                        item.quantity--;
+                    }
+                    
+                    if (item.quantity < 1) {
+                        removeItem(id); 
+                    } else {
+                        saveCart();
+                        renderCart(); 
+                        updateCartCounter();
+                    }
+                });
+            });
+            
+            cartItemsList.querySelectorAll('.cart-delete-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.currentTarget.dataset.id;
+                    removeItem(id);
+                });
+            });
+        }
+        
+        function removeItem(id) {
+            cart = cart.filter(item => item.id !== id); 
+            saveCart();
+            renderCart(); 
+            updateCartCounter();
+        }
+
+        navCartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderCart(); 
+            cartModal.style.display = 'block';
+        });
+        cartCloseBtn.addEventListener('click', () => {
+            cartModal.style.display = 'none';
+        });
+        window.addEventListener('click', (e) => {
+            if (e.target == cartModal) {
+                cartModal.style.display = 'none';
+            }
+        });
+
+        cartBuyBtn.addEventListener('click', () => {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            
+            if (cart.length === 0) {
+                cartFeedback.innerHTML = '🛒 Tu carrito está vacío.';
+                cartFeedback.style.color = '#555';
+                return;
+            }
+            
+            if (isLoggedIn === 'true') {
+                cartFeedback.innerHTML = '✅ Su compra ha sido exitosa';
+                cartFeedback.style.color = '#198754';
+                cart = []; 
+                saveCart(); 
+                
+                setTimeout(() => {
+                    renderCart(); 
+                    updateCartCounter(); 
+                    cartModal.style.display = 'none';
+                }, 2000);
+                
+            } else {
+                cartFeedback.innerHTML = '❌ no puedes comprar sin ingresar usuario';
+                cartFeedback.style.color = '#ef4444';
+            }
+        });
+
+        loadCart();
+    });
+  </script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      const loginLink = document.getElementById('nav-login'); 
+      const logoutLink = document.getElementById('nav-logout'); 
+
+      if (isLoggedIn === 'true' && loginLink && logoutLink) {
+        // --- ESTÁ LOGUEADO ---
+        const userName = sessionStorage.getItem('userName') || 'Usuario';
+        
+        loginLink.style.display = 'none';
+        
+        logoutLink.style.display = 'inline-flex';
+        logoutLink.innerHTML = `<i class="fas fa-user-circle"></i> Hola, ${userName} (Salir)`;
+        
+        logoutLink.addEventListener('click', (e) => {
+          e.preventDefault(); 
+          sessionStorage.removeItem('isLoggedIn');
+          sessionStorage.removeItem('userName');
+          sessionStorage.removeItem('cart'); // Limpiar carrito al salir
+          window.location.href = 'evaluacion 3  interfaz de usuario.html'; 
+        });
+
+      } else {
+        // --- NO ESTÁ LOGUEADO ---
+        loginLink.style.display = 'inline-flex';
+        logoutLink.style.display = 'none';
+      }
+    });
+  </script>
+
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const searchInput = document.getElementById('product-search');
+      const products = document.querySelectorAll('#productos-section .producto');
+
+      function applyFilters() {
+          const activeCategoryBtn = document.querySelector('.filter-btn.active');
+          const currentCategory = activeCategoryBtn ? activeCategoryBtn.getAttribute('data-filter') : 'all';
+          const searchTerm = searchInput.value.toLowerCase();
+
+          products.forEach(product => {
+              const categories = product.getAttribute('data-category');
+              const categoryMatch = (currentCategory === 'all' || (categories && categories.includes(currentCategory)));
+              const productName = product.querySelector('h3').textContent.toLowerCase();
+              const searchMatch = productName.includes(searchTerm);
+
+              if (categoryMatch && searchMatch) {
+                  product.classList.remove('hide');
+              } else {
+                  product.classList.add('hide');
+              }
+          });
+      }
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          applyFilters();
+        });
+      });
+      
+      searchInput.addEventListener('input', applyFilters);
+    });
+  </script>
+  
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navInicio = document.getElementById('nav-inicio');
+        const navProductos = document.getElementById('nav-productos');
+        const navOfertas = document.getElementById('nav-ofertas');
+        const navContacto = document.getElementById('nav-contacto');
+        const allNavLinks = [navInicio, navProductos, navOfertas, navContacto];
+
+        const pageContent = document.querySelector('.page-content');
+        const sectionInicio = document.getElementById('inicio-section');
+        const sectionProductos = document.getElementById('productos-section');
+        const sectionOfertas = document.getElementById('ofertas-section');
+        const sectionContacto = document.getElementById('contacto-section');
+        const allSections = [sectionInicio, sectionProductos, sectionOfertas, sectionContacto];
+        
+        function showSection(sectionToShow) {
+            allSections.forEach(section => {
+                section.style.display = 'none'; 
+            });
+            if (sectionToShow) {
+               
+                if (sectionToShow.id === 'inicio-section') {
+                    // pageContent.style.flexGrow = '1'; // <--- This logic was flawed.
+                    sectionInicio.style.display = 'flex'; // <--- This is redundant, but fine.
+                } else {
+                    // pageContent.style.flexGrow = '0'; // <--- This logic was flawed.
+                    sectionToShow.style.display = 'block'; 
+                }
+            }
+        }
+
+        function setActiveNav(linkToActivate) {
+            allNavLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            if (linkToActivate) {
+                linkToActivate.classList.add('active');
+            }
+        }
+
+        navInicio.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection(sectionInicio); 
+            setActiveNav(navInicio);
+        });
+
+        navProductos.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection(sectionProductos); 
+            setActiveNav(navProductos);
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+            document.querySelectorAll('#productos-section .producto').forEach(p => p.classList.remove('hide'));
+            document.getElementById('product-search').value = '';
+        });
+
+        navOfertas.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection(sectionOfertas);
+            setActiveNav(navOfertas);
+        });
+
+        navContacto.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection(sectionContacto);
+            setActiveNav(navContacto);
+        });
+        
+        showSection(sectionInicio);
+        setActiveNav(navInicio);
+    });
+  </script>
+  
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sliderContainer = document.querySelector('.slider-container');
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        
+        let currentSlide = 0;
+        const slideCount = slides.length;
+        let slideInterval;
+
+        function goToSlide(slideIndex) {
+            if (slideIndex < 0) {
+                slideIndex = slideCount - 1;
+            } else if (slideIndex >= slideCount) {
+                slideIndex = 0;
+            }
+            sliderContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+            currentSlide = slideIndex;
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(nextSlide, 5000); 
+        }
+        
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            stopSlideShow(); 
+        });
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            stopSlideShow(); 
+        });
+        
+        startSlideShow();
+    });
+  </script>
+
+</body>
+</html>
