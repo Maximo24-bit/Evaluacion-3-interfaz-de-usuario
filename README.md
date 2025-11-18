@@ -1185,7 +1185,7 @@
               </div>
           </div>
           <div class="producto" data-category="oferta" data-id="Protector de dientes">
-              <div class="Protector de dientes"> <img src="Protector de dientes.jpg"></span> </div>
+              <div class="Protector de dientes"> <img src="Protector de dientes.jpg"> </div>
               <div class="info">
                 <h3>Protector de dientes</h3>
                 <div class="precio-container"> <span class="precio-original">$5.000</span> <span class="precio-oferta">$4.500 (10% OFF)</span> </div>
@@ -1193,7 +1193,7 @@
               </div>
           </div>
           <div class="producto" data-category="oferta" data-id="Botella Hidratante">
-              <div class="Botella Hidratante"> <img src="Botella.jpg"></span> </div>
+              <div class="Botella Hidratante"> <img src="Botella.jpg"> </div>
               <div class="info">
                 <h3>Botella Hidratante</h3>
                 <div class="precio-container"> <span class="precio-original">$7.600</span> <span class="precio-oferta">$1.216 (16% OFF)</span> </div>
